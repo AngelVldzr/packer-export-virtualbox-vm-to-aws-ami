@@ -1,0 +1,68 @@
+{
+  "variables": {
+    "vm_name": "packer",
+    "aws_region": "us-east-1",
+    "s3_bucket": "packer-vbox-import-isaac-2710"
+  },
+
+  "builders": [
+    {
+      "type": "virtualbox-vm",
+      "vm_name": "{{user `vm_name`}}",
+
+      "attach_snapshot": "base-limpia",
+      "target_snapshot": "nginx-packer-json",
+      "force_delete_snapshot": true,
+      "keep_registered": false,
+      "skip_export": false,
+
+      "format": "ova",
+      "output_directory": "output-json",
+      "export_opts": [
+        "--manifest",
+        "--vsys", "0",
+        "--description", "VM VirtualBox + NGINX (Packer JSON)"
+      ],
+
+      "headless": true,
+      "guest_additions_mode": "disable",
+
+      "communicator": "ssh",
+      "ssh_username": "packer",
+      "ssh_password": "packer",
+      "ssh_timeout": "20m",
+
+      "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+      "shutdown_timeout": "10m"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'packer' | sudo -S -E bash '{{ .Path }}'",
+      "script": "{{template_dir}}/../scripts/install-nginx.sh"
+    }
+  ],
+
+  "post-processors": [
+    {
+      "type": "amazon-import",
+      "region": "{{user `aws_region`}}",
+      "s3_bucket_name": "{{user `s3_bucket`}}",
+      "s3_key_name": "packer/json/vbox-nginx-{{timestamp}}.ova",
+      "format": "ova",
+      "role_name": "vmimport",
+      "boot_mode": "uefi",
+      "platform": "linux",
+      "ami_name": "vbox-nginx-json-{{timestamp}}",
+      "ami_description": "VM de VirtualBox con NGINX importada con Packer (JSON)",
+      "keep_input_artifact": true,
+      "tags": {
+        "Name": "vbox-nginx-json",
+        "Proyecto": "packer-export-virtualbox-vm-to-aws-ami",
+        "CreadoCon": "packer-json"
+      }
+    }
+  ]
+}

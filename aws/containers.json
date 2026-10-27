@@ -1,0 +1,10 @@
+[
+  {
+    "Description": "VM Ubuntu exportada de VirtualBox con VBoxManage export (OVF 2.0 en .ova)",
+    "Format": "ova",
+    "UserBucket": {
+      "S3Bucket": "packer-vbox-import-isaac-2710",
+      "S3Key": "vm-import/packer.ova"
+    }
+  }
+]

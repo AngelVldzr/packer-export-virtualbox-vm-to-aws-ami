@@ -1,0 +1,13 @@
+# Artefactos pesados que genera VirtualBox/Packer (no van a GitHub)
+*.ova
+*.ovf
+*.vmdk
+*.mf
+output-*/
+packer_cache/
+
+# Copia temporal que Packer necesita para leer la plantilla HCL
+hcl/config.pkr.hcl
+
+# Logs de evidencia locales
+*.log
