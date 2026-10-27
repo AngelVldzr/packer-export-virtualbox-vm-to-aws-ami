@@ -158,18 +158,6 @@ Al terminar, la última línea muestra la AMI (`us-east-1: ami-...`). Lánzala i
 
 ---
 
-## Evidencias a capturar
-
-- [ ] `VBoxManage list vms` y el comando `export` terminado (100%)
-- [ ] `aws s3 ls s3://$BUCKET --recursive`
-- [ ] `import-image` con su `ImportTaskId` y `describe-import-image-tasks` en `completed`
-- [ ] Consola EC2 → AMIs mostrando las AMIs importadas
-- [ ] Instancia en `running` + `get-console-output` o SSH dentro
-- [ ] `packer validate` y `packer build` (JSON) con el NGINX instalándose y la AMI final
-- [ ] Lo mismo con HCL (la contraseña sale como `<sensitive>`)
-- [ ] Navegador en `http://IP_PUBLICA` con la página de NGINX
-- [ ] Repo en GitHub con esta estructura
-
 ## Limpieza (para no generar costos)
 
 ```bash
